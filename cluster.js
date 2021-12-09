@@ -1,5 +1,7 @@
 const cluster = require("cluster");
 const os = require("os");
+const dotenv = require("dotenv");
+dotenv.config();
 
 if (cluster.isMaster) {
   // Take advantage of multiple CPUs
