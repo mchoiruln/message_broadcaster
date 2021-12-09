@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const port = process.env.PORT || 3000;
 
 app.get("/", (request, response, nextHandler) => {
   response.json({
@@ -11,7 +12,7 @@ app.get("/", (request, response, nextHandler) => {
 const server = require("http").createServer(app);
 
 server.on("listening", () => {
-  console.log("App listening on port 3000", `Worker (PID) ${process.pid}.`);
+  console.log(`App listening on port ${port}`, `Worker (PID) ${process.pid}.`);
 });
 
-server.listen(3000);
+server.listen(port);
