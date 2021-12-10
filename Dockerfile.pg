@@ -1,0 +1,4 @@
+FROM postgres:14.1-alpine3.15
+
+COPY --from=trajano/alpine-libfaketime  /faketime.so /lib/faketime.so
+ENV LD_PRELOAD=/lib/faketime.so

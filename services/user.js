@@ -1,4 +1,4 @@
-const pg = require("pg");
+import pg from "pg";
 
 const db = new pg.Pool({
   user: process.env.DB_USER,
@@ -113,11 +113,4 @@ const getUser = async (id) => {
   }
 };
 
-module.exports = {
-  db,
-  getAllUser,
-  insertUser,
-  deleteUser,
-  updateUser,
-  getUser,
-};
+export { db, getAllUser, insertUser, deleteUser, updateUser, getUser };

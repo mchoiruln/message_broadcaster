@@ -1,8 +1,7 @@
 import { parentPort } from "worker_threads";
-import { DateTime } from "luxon";
 import axios from "axios";
 import https from "https";
-import { getBirthdayUser, updateStatusUser } from "../services/birthday.js";
+import { getLateBirthdayUser, updateStatusUser } from "../services/birthday.js";
 
 import pThrottle from "p-throttle";
 
@@ -13,7 +12,9 @@ const throttle = pThrottle({
 });
 
 const sendHappyBirthday = throttle(async (r) => {
-  const message = `Hey, ${r.firstname + " " + r.lastname} it’s your birthday`;
+  const message = `Hey, ${
+    r.firstname + " " + r.lastname
+  }, sorry it's so late to say this, happy birthday`;
 
   try {
     const agent = new https.Agent({
@@ -34,7 +35,6 @@ const sendHappyBirthday = throttle(async (r) => {
         id: r.id,
         last_updated_lock: r.last_updated_lock,
       });
-      console.log({ rows_collect: result.rows });
     }
     console.log(message, response.data);
     return Promise.resolve();
@@ -48,18 +48,8 @@ import pRetry from "p-retry";
 
 const runJob = async () => {
   try {
-    const { year, month, day, hour } = DateTime.now().setZone("UTC").toObject();
-    const result = await getBirthdayUser(
-      DateTime.fromObject({
-        year,
-        month,
-        day,
-        hour,
-        minutes: 0,
-        seconds: 0,
-      }).toISO()
-    );
-    console.log({ rows_collect: result.rowCount });
+    const result = await getLateBirthdayUser();
+    console.log({ rows: result.rowCount });
 
     const asyncRes = await Promise.all(
       result.rows.map(async (r) => {

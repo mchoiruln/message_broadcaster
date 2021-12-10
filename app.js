@@ -1,23 +1,31 @@
-const express = require("express");
-const app = express();
-const port = process.env.PORT || 3000;
+import express from "express";
+import { createServer } from "http";
+import routeUser from "./routes/user.js";
 
-app.get("/", (request, response, nextHandler) => {
-  response.json({
-    message: "Homepage!",
-    info: `Served by worker with process id (PID) ${process.pid}.`,
+export default function () {
+  const app = express();
+  const port = process.env.PORT || 3000;
+
+  app.get("/", (request, response, nextHandler) => {
+    response.json({
+      message: "Homepage!",
+      info: `Served by worker with process id (PID) ${process.pid}.`,
+    });
   });
-});
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: true }));
 
-app.use("/", require("./routes/user"));
+  app.use("/", routeUser);
 
-const server = require("http").createServer(app);
+  const server = createServer(app);
 
-server.on("listening", () => {
-  console.log(`App listening on port ${port}`, `Worker (PID) ${process.pid}.`);
-});
+  server.on("listening", () => {
+    console.log(
+      `App listening on port ${port}`,
+      `Worker (PID) ${process.pid}.`
+    );
+  });
 
-server.listen(port);
+  server.listen(port);
+}

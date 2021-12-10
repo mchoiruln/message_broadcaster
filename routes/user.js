@@ -1,16 +1,17 @@
-const express = require("express");
+import express from "express";
 
 const route = express.Router();
 
-const {
+import {
   getAllUser,
   insertUser,
   deleteUser,
   getUser,
   updateUser,
-} = require("../services/user");
-const { find } = require("geo-tz");
-const { DateTime } = require("luxon");
+} from "../services/user.js";
+
+import { find } from "geo-tz";
+import { DateTime } from "luxon";
 
 route.get("/user/:id", async (req, res, next) => {
   const { id } = req.params;
@@ -79,4 +80,4 @@ route.put("/user/:id", async (req, res, next) => {
   }
 });
 
-module.exports = route;
+export default route;

@@ -1,5 +1,6 @@
-const cluster = require("cluster");
-const os = require("os");
+import cluster from "cluster";
+import os from "os";
+import app from "./app.js";
 
 if (cluster.isMaster) {
   // Take advantage of multiple CPUs
@@ -26,5 +27,5 @@ if (cluster.isMaster) {
   console.log(new Date());
 } else {
   // how funny, this is all needed for workers to start
-  require("./app.js");
+  app();
 }

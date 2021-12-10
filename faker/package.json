@@ -1,0 +1,12 @@
+{
+  "name": "faker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "fakereq.js",
+  "scripts": {
+    "fake-user": "loadtest -c 8 -n 1000 -T application/json -p fakereq.js http://localhost:3000/user",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

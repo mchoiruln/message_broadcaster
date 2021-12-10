@@ -27,7 +27,7 @@ structure:
 firstname: <String>
 lastname: <String>
 birthday_date: <yyyy-M-d> in string
-location: <longitude,latitude> in string
+location: <latitude,longitude> in string
 ```
 
 > POST

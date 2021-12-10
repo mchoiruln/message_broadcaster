@@ -11,11 +11,12 @@ services:
       DB_HOST: db
       DB_DATABASE: broadcast_db
       DB_PORT: 5432
-      # FAKETIME: "@2021-12-10 20:59:40"
+      # FAKETIME: "@2021-12-13 21:59:40"
     volumes:
       - "./:/app"
     ports:
       - "3000:3000"
+    restart: 'unless-stopped'
     depends_on:
       - db
   jobs:
@@ -28,14 +29,19 @@ services:
       DB_HOST: db
       DB_DATABASE: broadcast_db
       DB_PORT: 5432
-      # FAKETIME: "@2021-12-10 20:59:40"
-      HOOKBIN_URL: https://hookb.in/Px0LW2peW0TpKPrrKWgl
+      # FAKETIME: "@2021-12-13 21:59:40"
+      HOOKBIN_URL: https://hookb.in/2qKG7ZeqmBSdzq88zKd2
+      # HOOKBIN_URL: https://ennc8lpshe6.x.pipedream.net
+      # HOOKBIN_URL: https://webhook.site/ef2b8e0e-33ea-409a-b96d-e4797b49538f
     volumes:
       - "./:/app"
+    restart: 'unless-stopped'
     depends_on:
       - db
   db:
-    image: postgres:14.1-alpine3.15
+    build: 
+      context: .
+      dockerfile: Dockerfile.pg
     volumes: 
       - pgdata:/var/lib/postgresql/data
       - pgconf:/etc/postgresql
@@ -44,6 +50,9 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: broadcast_db 
+      # FAKETIME: "@2021-12-13 21:59:40"
+      # FAKETIME: "@2021-12-13 22:00:00"\
+    restart: 'unless-stopped'
     ports:
       - "5432:5432"
 

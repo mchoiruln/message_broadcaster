@@ -1,7 +1,9 @@
-const Bree = require("bree");
-const Cabin = require("cabin");
-const Graceful = require("@ladjs/graceful");
-const { Signale } = require("signale");
+import Bree from "bree";
+import Cabin from "cabin";
+import Graceful from "@ladjs/graceful";
+import signale from "signale";
+
+const { Signale } = signale;
 
 // initialize cabin
 const cabin = new Cabin({
@@ -16,7 +18,13 @@ const bree = new Bree({
   jobs: [
     {
       name: "collect",
-      cron: "0 * * * *", // every hour
+      timeout: 0,
+      interval: "10s",
+    },
+    {
+      name: "late_collect",
+      timeout: 0,
+      interval: "15s",
     },
   ],
 });
