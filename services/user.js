@@ -20,13 +20,13 @@ const getAllUser = async () => {
   }
 };
 
-const insertUser = async (
+const insertUser = async ({
   firstname,
   lastname,
   birthday_date,
   location,
-  zone
-) => {
+  zone,
+}) => {
   const client = await db.connect();
   try {
     await client.query("BEGIN");
@@ -44,4 +44,80 @@ const insertUser = async (
   }
 };
 
-module.exports = { db, getAllUser, insertUser };
+const deleteUser = async (id) => {
+  const client = await db.connect();
+  try {
+    await client.query("BEGIN");
+    const result = await client.query("delete from public.users where id=$1", [
+      id,
+    ]);
+    await client.query("COMMIT");
+    return result;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    await client.release();
+  }
+};
+
+const updateUser = async ({
+  firstname,
+  lastname,
+  birthday_date,
+  location,
+  zone,
+  id,
+  last_updated_lock,
+}) => {
+  const client = await db.connect();
+  try {
+    await client.query("BEGIN");
+    const result = await client.query(
+      `update users 
+      set firstname=$1,
+       lastname=$2,
+       birthday_date=$3,
+      "location"=$4,
+      "zone"=$5
+      where id=$6 and last_updated_lock=$7
+      returning *`,
+      [
+        firstname,
+        lastname,
+        birthday_date,
+        location,
+        zone,
+        id,
+        last_updated_lock,
+      ]
+    );
+    await client.query("COMMIT");
+    return result;
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    await client.release();
+  }
+};
+
+const getUser = async (id) => {
+  const client = await db.connect();
+  try {
+    return await client.query("SELECT * FROM public.users where id=$1", [id]);
+  } catch (error) {
+    throw new Error(error);
+  } finally {
+    await client.release();
+  }
+};
+
+module.exports = {
+  db,
+  getAllUser,
+  insertUser,
+  deleteUser,
+  updateUser,
+  getUser,
+};
