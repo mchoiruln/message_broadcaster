@@ -9,7 +9,7 @@ $ docker-compose build
 
 // create database broadcast_db and migrate migration
 $ docker-compose run web npm run db-default db:create broadcast_db
-$ docker-compose run web npm run db-migrate migrate
+$ docker-compose run web npm run db-migrate up
 ```
 
 ## Run App
