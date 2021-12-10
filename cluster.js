@@ -23,6 +23,7 @@ if (cluster.isMaster) {
   });
 
   console.log(`Master PID: ${process.pid}`);
+  console.log(new Date());
 } else {
   // how funny, this is all needed for workers to start
   require("./app.js");

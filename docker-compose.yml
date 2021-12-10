@@ -11,10 +11,27 @@ services:
       DB_HOST: db
       DB_DATABASE: broadcast_db
       DB_PORT: 5432
+      # FAKETIME: "@2021-12-10 20:59:40"
     volumes:
       - "./:/app"
     ports:
       - "3000:3000"
+    depends_on:
+      - db
+  jobs:
+    build: .
+    command: sh -c "node bree"
+    working_dir: /app
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_HOST: db
+      DB_DATABASE: broadcast_db
+      DB_PORT: 5432
+      # FAKETIME: "@2021-12-10 20:59:40"
+      HOOKBIN_URL: https://hookb.in/Px0LW2peW0TpKPrrKWgl
+    volumes:
+      - "./:/app"
     depends_on:
       - db
   db:
@@ -26,7 +43,7 @@ services:
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: broadcast_db
+      POSTGRES_DB: broadcast_db 
     ports:
       - "5432:5432"
 
