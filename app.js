@@ -9,6 +9,8 @@ app.get("/", (request, response, nextHandler) => {
   });
 });
 
+app.use("/", require("./routes/user"));
+
 const server = require("http").createServer(app);
 
 server.on("listening", () => {
