@@ -9,6 +9,9 @@ app.get("/", (request, response, nextHandler) => {
   });
 });
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", require("./routes/user"));
 
 const server = require("http").createServer(app);

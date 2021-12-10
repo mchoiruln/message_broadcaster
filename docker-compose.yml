@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+  web:
+    build: .
+    command: sh -c "npm start"
+    working_dir: /app
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: password
+      DB_HOST: db
+      DB_DATABASE: broadcast_db
+      DB_PORT: 5432
+    volumes:
+      - "./:/app"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+  db:
+    image: postgres:14.1-alpine3.15
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+      - pgconf:/etc/postgresql
+      - pglog:/var/log/postgresql
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: broadcast_db
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
+  pgconf:
+  pglog: 
